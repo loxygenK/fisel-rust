@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, io::Error};
 
 #[derive(Debug)]
 pub struct BrowsedDirectory {
@@ -7,8 +7,8 @@ pub struct BrowsedDirectory {
     dirs: Vec<String>
 }
 
-pub fn browse(path: &str) -> Option<BrowsedDirectory> {
-    let dir = fs::read_dir(path).ok()?.filter_map(|p| p.ok());
+pub fn browse(path: &str) -> Result<BrowsedDirectory, Error> {
+    let dir = fs::read_dir(path)?.filter_map(|p| p.ok());
 
     let mut files: Vec<String> = vec![];
     let mut dirs: Vec<String> = vec![];
@@ -23,7 +23,7 @@ pub fn browse(path: &str) -> Option<BrowsedDirectory> {
         }
     }
 
-    Some(
+    Ok(
         BrowsedDirectory {
             path: path.to_string(), files, dirs
         }
