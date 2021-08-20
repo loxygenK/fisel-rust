@@ -1,3 +1,7 @@
+mod browse;
+
+use browse::browse;
+
 fn main() {
-    println!("Hello, world!");
+    println!("{:?}", browse("./"));
 }
